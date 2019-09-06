@@ -17,14 +17,15 @@ wss.on("connection", socket => {
   };
 });
 
-function updateAppointment(id, interview) {
+function updateAppointment(id, interview, day) {
   wss.clients.forEach(function eachClient(client) {
     if (client.readyState === WebSocket.OPEN) {
       client.send(
         JSON.stringify({
           type: "SET_INTERVIEW",
           id,
-          interview
+          interview,
+          day
         })
       );
     }

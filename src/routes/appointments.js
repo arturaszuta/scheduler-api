@@ -44,14 +44,15 @@ module.exports = (db, updateAppointment) => {
     )
       .then(() => {
         setTimeout(() => {
+          console.log(request.body);
           response.status(204).json({});
-          updateAppointment(Number(request.params.id), request.body.interview);
+          updateAppointment(Number(request.params.id), request.body.interview, request.body.day);
         }, 1000);
       })
       .catch(error => console.log(error));
   });
 
-  router.delete("/appointments/:id", (request, response) => {
+  router.delete("/appointments/:id/:day", (request, response) => {
     if (process.env.TEST_ERROR) {
       setTimeout(() => response.status(500).json({}), 1000);
       return;
@@ -61,8 +62,9 @@ module.exports = (db, updateAppointment) => {
       request.params.id
     ]).then(() => {
       setTimeout(() => {
+        console.log(request.params);
         response.status(204).json({});
-        updateAppointment(Number(request.params.id), null);
+        updateAppointment(Number(request.params.id), null, request.params.day);
       }, 1000);
     });
   });
